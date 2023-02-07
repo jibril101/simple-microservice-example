@@ -21,6 +21,7 @@ jobs:
       with:
         image: jibril101/frontend
         dockerfile: ./FrontendApplication/Dockerfile
+        directory: ./FrontendApplication
         tags: latest
         registry: quay.io
         username: ${{secrets.DOCKER_USERNAME}}

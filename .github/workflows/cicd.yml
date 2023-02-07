@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  PROJECT_ID: ${{secrets.GKE_PROJECT}}
+  GKE_CLUSTER: cloudshaykh
+  GKE_ZONE: us-west2-a
+
 jobs:
 
   build:
@@ -35,7 +40,7 @@ jobs:
         image: jibril101/frontend
         dockerfile: ./FrontendApplication/Dockerfile
         directory: ./FrontendApplication
-        tags: latest
+        tags: $GITHUB_SHA
         registry: quay.io
         username: ${{secrets.DOCKER_USERNAME}}
         password: ${{secrets.DOCKER_PASSWORD}}
@@ -46,7 +51,7 @@ jobs:
         image: jibril101/quote-service
         dockerfile: ./QuoteService/Dockerfile
         directory: ./QuoteService
-        tags: latest
+        tags: $GITHUB_SHA
         registry: quay.io
         username: ${{secrets.DOCKER_USERNAME}}
         password: ${{secrets.DOCKER_PASSWORD}}
@@ -57,11 +62,34 @@ jobs:
         image: jibril101/gateway
         dockerfile: ./ApiGateway/Dockerfile
         directory: ./ApiGateway
-        tags: latest
+        tags: $GITHUB_SHA
         registry: quay.io
         username: ${{secrets.DOCKER_USERNAME}}
         password: ${{secrets.DOCKER_PASSWORD}}
+
+     # Setup gcloud CLI
+    - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+      with:
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        project_id: ${{ secrets.GKE_PROJECT }}
+
+    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+        credentials: ${{ secrets.GKE_SA_KEY }}
     
+    - name: Set up Kustomize
+      run: |-
+        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+        chmod u+x ./kustomize
 
-
-        
+    - name: Deploy
+      run: |-
+        ./kustomize edit set image quay.io/jibril101/frontend:$GITHUB_SHA
+        ./kustomize edit set image quay.io/jibril101/gateway:$GITHUB_SHA
+        ./kustomize edit set image quay.io/jibril101/quote-service:$GITHUB_SHA
+        ./kustomize build . | kubectl apply -f - 
+        kubectl rollout status deployment/frontend
+        kubectl rollout status deployment/quote-service
+        kubectl rollout status deployment/gateway

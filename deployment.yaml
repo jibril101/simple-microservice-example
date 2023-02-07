@@ -27,6 +27,9 @@ spec:
         - name: http
           containerPort: 80
           protocol: TCP
+        - name: https
+          containerPort: 443
+          protocol: TCP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -122,6 +125,10 @@ spec:
     port: 80
     protocol: TCP
     targetPort: http
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
   type: LoadBalancer
 
 ---

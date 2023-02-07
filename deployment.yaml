@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: API_GATEWAY
-          value: gateway.default
+          value: http://34.102.116.173:300
         ports:
         - name: http
           containerPort: 80
@@ -55,7 +55,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: QUOTE_API
-          value: quote-service.default
+          value: http://35.236.97.162:5000
         ports:
         - name: http
           containerPort: 3000
@@ -83,9 +83,6 @@ spec:
       - name: quote-service
         image: quay.io/jibril101/quote-service
         imagePullPolicy: Always
-        env:
-        - name: QUOTE_API
-          value: quote-service.default
         ports:
         - name: http
           containerPort: 5000

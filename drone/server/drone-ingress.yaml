@@ -1,0 +1,18 @@
+# ingress/wardenclyffe
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: drone
+  name: drone-ingress
+spec:
+  rules:
+  - host: cloudshaykh.com
+    http:
+      paths:
+      - backend:
+          service: 
+            name: droneserver
+            port: 
+              number: 80
+        path: /
+        pathType: ImplementationSpecific

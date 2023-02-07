@@ -1,0 +1,164 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: frontend
+  labels:
+    name: frontend
+    env: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: frontend
+  template:
+    metadata:
+      labels:
+        name: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: quay.io/jibril101/frontend
+        imagePullPolicy: Always
+        env:
+        - name: API_GATEWAY
+          value: gateway.default
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: gateway
+  labels:
+    name: gateway
+    env: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: gateway
+  template:
+    metadata:
+      labels:
+        name: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: quay.io/jibril101/gateway
+        imagePullPolicy: Always
+        env:
+        - name: QUOTE_API
+          value: quote-service.default
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: quote-service
+  labels:
+    name: quote-service
+    env: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: quote-service
+  template:
+    metadata:
+      labels:
+        name: quote-service
+    spec:
+      containers:
+      - name: quote-service
+        image: quay.io/jibril101/quote-service
+        imagePullPolicy: Always
+        env:
+        - name: QUOTE_API
+          value: quote-service.default
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: gateway
+  labels: 
+    name: gateway
+    env: production
+spec:
+  selector:
+    name: gateway
+  ports:
+  - name: http
+    port: 3000
+    protocol: TCP
+    targetPort: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: frontend
+  labels: 
+    name: frontend
+    env: production
+spec:
+  selector:
+    name: frontend
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: quote-service
+  labels: 
+    name: quote-service
+    env: production
+spec:
+  selector:
+    name: quote-service
+  ports:
+  - name: http
+    port: 5000
+    protocol: TCP
+    targetPort: http
+---
+# ingress/frontend
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   namespace: default
+#   name: frontend
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#   - host: cloudshaykh.com
+#     http:
+#       paths:
+#       - backend:
+#           service: 
+#             name: frontend
+#             port: 
+#               number: 80
+#         path: /
+#         pathType: ImplementationSpecific
+    

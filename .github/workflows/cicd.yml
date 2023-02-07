@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  DOCKER_USERNAME: ${{secrets.QUAY_IO_USERNAME}}
-  DOCKER_PASSWORD: ${{secrets.QUAY_IO_USERNAME}}
-
 jobs:
 
   build:
@@ -21,17 +17,35 @@ jobs:
       uses: actions/checkout@v3
       
     - name: Build Frontend
-      uses: docker/build-push-action@v4
+      uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        context: ./FrontendApplication
-        push: true
-        tags: quay.io/jibril101/frontend
-        
-    - name: Build Quotes Service
-      uses: docker/build-push-action@v4
+        image: jibril101/frontend
+        dockerfile: ./FrontendApplication/Dockerfile
+        tags: latest
+        registry: quay.io
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+    
+    - name: Build Quote Service
+      uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        context: ./FrontendApplication
-        push: true
-        tags: quay.io/jibril101/frontend
+        image: jibril101/quote-service
+        dockerfile: ./QuoteService/Dockerfile
+        tags: latest
+        registry: quay.io
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+    
+    - name: Build Gateway Service
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: jibril101/gateway
+        dockerfile: ./ApiGateway/Dockerfile
+        tags: latest
+        registry: quay.io
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+    
+
 
         

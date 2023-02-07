@@ -15,8 +15,21 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      
-    - name: Build Frontend
+    
+    - name: run npm 
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    
+    - name: run npm build
+      working-directory: ./FrontendApplication
+      run: npm build
+    
+    - name: run npm tests
+      working-directory: ./FrontendApplication
+      run: npm test
+
+    - name: Build Frontend Image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
         image: jibril101/frontend

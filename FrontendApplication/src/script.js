@@ -1,4 +1,4 @@
-var api = "gateway.default" // get the API Gateway from the environment
+var api = "http://34.102.116.173:3000" // get the API Gateway from the environment
 
 $(document).ready(function() {
     $("#btn").click(function() {

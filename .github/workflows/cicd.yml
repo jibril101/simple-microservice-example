@@ -32,6 +32,7 @@ jobs:
       with:
         image: jibril101/quote-service
         dockerfile: ./QuoteService/Dockerfile
+        directory: ./QuoteService
         tags: latest
         registry: quay.io
         username: ${{secrets.DOCKER_USERNAME}}
@@ -42,6 +43,7 @@ jobs:
       with:
         image: jibril101/gateway
         dockerfile: ./ApiGateway/Dockerfile
+        directory: ./ApiGateway
         tags: latest
         registry: quay.io
         username: ${{secrets.DOCKER_USERNAME}}

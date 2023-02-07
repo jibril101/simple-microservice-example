@@ -1,0 +1,37 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master", "dev" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  DOCKER_USERNAME: ${{secrets.QUAY_IO_USERNAME}}
+  DOCKER_PASSWORD: ${{secrets.QUAY_IO_USERNAME}}
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Build Frontend
+      uses: docker/build-push-action@v4
+      with:
+        context: ./FrontendApplication
+        push: true
+        tags: quay.io/jibril101/frontend
+        
+    - name: Build Quotes Service
+      uses: docker/build-push-action@v4
+      with:
+        context: ./FrontendApplication
+        push: true
+        tags: quay.io/jibril101/frontend
+
+        

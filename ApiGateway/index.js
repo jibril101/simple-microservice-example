@@ -4,8 +4,8 @@ const cors = require('cors')
 const app = express()
 
 // Get the quotes api from the environment(refer docker-compose.yml)
-const QUOTES_API_GATEWAY = process.env.QUOTES_API
-
+// const QUOTES_API_GATEWAY = process.env.QUOTES_API
+const QUOTES_API_GATEWAY = "http://35.236.97.162:5000"
 // Use CORS to preapvent Cross-Origin Requets issue
 app.use(cors())
 

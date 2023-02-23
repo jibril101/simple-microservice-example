@@ -1,4 +1,4 @@
-I forked from kasvith/simple-microservices-example
+Forked from kasvith/simple-microservices-example
 
 https://github.com/jibril101/simple-microservice-example
 
@@ -30,5 +30,3 @@ http://34.94.37.97/
 
 Go to https://github.com/jibril101/simple-microservice-example
 - add a change to FrontendApplication/src/index.html and push to see changes
-
-In an improved solution I would add ingresses for the services and add more templating for the deployments.

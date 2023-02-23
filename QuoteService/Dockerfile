@@ -14,7 +14,7 @@ COPY . /usr/src/app
 RUN python -mpip install -r requrinments.txt
 
 # Expose the port
-EXPOSE 5000
+EXPOSE 80
 
 # Start the application
 CMD ["python", "main.py"]

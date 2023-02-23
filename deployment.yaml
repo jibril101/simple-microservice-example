@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: API_GATEWAY
-          value: http://34.102.116.173:3000
+          value: http://gateway.cloudshaykh.com
         ports:
         - name: http
           containerPort: 80
@@ -55,10 +55,10 @@ spec:
         imagePullPolicy: Always
         env:
         - name: QUOTE_API
-          value: http://35.236.97.162:5000
+          value: http://quotes.cloudshaykh.com
         ports:
         - name: http
-          containerPort: 3000
+          containerPort: 80
           protocol: TCP
 ---
 apiVersion: apps/v1
@@ -85,7 +85,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - name: http
-          containerPort: 5000
+          containerPort: 80
           protocol: TCP
 ---
 apiVersion: v1
@@ -101,7 +101,7 @@ spec:
     name: gateway
   ports:
   - name: http
-    port: 3000
+    port: 80
     protocol: TCP
     targetPort: http
 
@@ -142,7 +142,7 @@ spec:
     name: quote-service
   ports:
   - name: http
-    port: 5000
+    port: 80
     protocol: TCP
     targetPort: http
 ---

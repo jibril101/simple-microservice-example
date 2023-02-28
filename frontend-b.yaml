@@ -3,9 +3,6 @@ kind: Service
 metadata:
   namespace: default
   name: frontend-b
-  labels: 
-    name: frontend-b
-    env: production
 spec:
   selector:
     name: frontend

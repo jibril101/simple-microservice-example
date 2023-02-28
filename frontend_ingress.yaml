@@ -14,11 +14,10 @@ spec:
   - host: app.cloudshaykh.com
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           service:
             name: frontend-b
             port:
               number: 80
-        path: /
-        pathType: ImplementationSpecific
-        
+        pathType: Prefix

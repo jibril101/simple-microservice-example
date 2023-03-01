@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: gateway-b
+  labels: 
+    name: gateway
+    env: production
+spec:
+  selector:
+    name: gateway
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http

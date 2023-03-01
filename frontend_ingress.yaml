@@ -21,3 +21,10 @@ spec:
             port:
               number: 80
         pathType: Prefix
+      - path: /gateway
+        backend:
+          service:
+            name: gateway-b
+            port:
+              number: 80
+        pathType: Exact

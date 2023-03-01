@@ -1,4 +1,4 @@
-var api = "http://app.cloudshaykh.com/gateway" // get the API Gateway from the environment
+var api = "http://gateway.cloudshaykh.com" // get the API Gateway from the environment
 
 $(document).ready(function() {
     $("#btn").click(function() {

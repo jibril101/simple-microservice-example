@@ -23,4 +23,26 @@ $(document).ready(function() {
             }
         })
     })
+    $("#status").click(function() {
+        $.ajax({
+            url: api + "/api/status",
+            type: "GET",
+            dataType: "json",
+            timeout: 3000,
+            success: function(data) {
+                $("#status").removeClass('is-danger') 
+                $("#staus").addClass('is-link')
+                $( "#status" ).html(data.status.status + '</br><b>'); 
+            },
+            error: function(xmlhttprequest, textstatus, message) {
+                $("#status").removeClass('is-link')
+                $("#status").addClass('is-danger')
+                if(textstatus==="timeout") {
+                    $( "#status" ).html("got timeout");
+                } else {
+                    $( "#status" ).html(message);
+                }
+            }
+        })
+    })
 })

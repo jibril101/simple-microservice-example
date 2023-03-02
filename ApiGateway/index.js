@@ -11,7 +11,14 @@ app.use(cors())
 
 // Get the status of the API
 app.get('/api/status', (req, res) => {
-    return res.json({status: 'ok'})
+    try {
+        return res.json({status: '200 ok'})
+    } catch (error) {
+        console.log(error)
+        res.status(400)
+        return res.json({status: "400: " + error})
+    }
+    
 })
 
 // Returns a random quote from the quote api
@@ -43,5 +50,5 @@ app.get('*', (req, res) => {
 
 // starts the app
 app.listen(80, () => {
-    console.log('API Gateway is listening on port 3000!')
+    console.log('API Gateway is listening on port 80!')
 })

@@ -1,4 +1,4 @@
-var api = "gateway.default" // get the API Gateway from the environment
+var api = "gateway" // get the API Gateway from the environment
 
 $(document).ready(function() {
     $("#btn").click(function() {

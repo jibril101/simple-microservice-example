@@ -9,7 +9,7 @@ on:
 env:
   PROJECT_ID: ${{secrets.GKE_PROJECT}}
   GKE_CLUSTER: cloudshaykh
-  GKE_ZONE: us-west2-a
+  GKE_ZONE: us-west1-a
 
 jobs:
 
